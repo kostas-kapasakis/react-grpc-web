@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package accounts;
+
+message Account {
+    string id = 1;
+    string number = 2;
+    string name = 3;
+}
+
+message GetAllAccountRequest {
+}
+
+message AllAccountsResponse {
+    repeated Account accounts = 1;
+}
+message GetAccountResponse {
+    Account account = 1;
+}
+
+message GetAccountRequest {
+    int32 id = 1;
+}
+
+message AppRegistrationForAccounts {
+    string id = 1;
+}
+
+message AccountsChange {
+    Account account = 1;
+}
+
+service AccountService {
+    rpc GetAccountById (GetAccountRequest) returns (GetAccountResponse) {
+    };
+    rpc GetAllAccounts (GetAllAccountRequest) returns (AllAccountsResponse) {
+    };
+    rpc RegisterForAccountsChanges (stream AppRegistrationForAccounts) returns (stream AccountsChange) {};
+}

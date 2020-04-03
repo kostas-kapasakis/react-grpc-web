@@ -1,0 +1,13 @@
+/* eslint-disable */
+syntax = "proto3";
+
+package messages;
+
+message Message {
+    string from = 1;
+    string message = 2;
+}
+
+service ChatService {
+    rpc chat(stream Message) returns (stream Message) {}
+}
