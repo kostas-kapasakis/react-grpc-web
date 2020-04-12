@@ -47,6 +47,7 @@ export type TabsProps = {
     tab1:JSX.Element,
     tab2:JSX.Element,
     tab3:JSX.Element
+    tab4:JSX.Element
 }
 
 export default function CustomTabs(props: TabsProps) {
@@ -64,6 +65,7 @@ export default function CustomTabs(props: TabsProps) {
                     <Tab label="Unary Call Single Account" {...a11yProps(0)} />
                     <Tab label="Unary Call Accounts Array" {...a11yProps(1)} />
                     <Tab label="Server Stream Call" {...a11yProps(2)} />
+                    <Tab label="Chat - Bidirectional Stream" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
@@ -75,9 +77,9 @@ export default function CustomTabs(props: TabsProps) {
             <TabPanel value={value} index={2}>
                 {props.tab3}
             </TabPanel>
-            {/*<TabPanel value={value} index={2}>*/}
-            {/*    {props.tab4}*/}
-            {/*</TabPanel>*/}
+            <TabPanel value={value} index={3}>
+                {props.tab4}
+            </TabPanel>
         </div>
     );
 }

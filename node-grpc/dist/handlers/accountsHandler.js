@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const accounts_pb_1 = require("../proto/accounts/accounts_pb");
-const accounts_grpc_pb_1 = require("../proto/accounts/accounts_grpc_pb");
 const accountsRepository_1 = require("../repository/accountsRepository");
+const accounts_grpc_pb_1 = require("../proto/accounts_grpc_pb");
+const accounts_pb_1 = require("../proto/accounts_pb");
 class AccountsHandler {
     constructor() {
         this.getAccountById = (req, response) => {

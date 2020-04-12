@@ -18,7 +18,8 @@
     "react-modal": "^3.11.2",
     "react-scripts": "3.4.1",
     "ts-protoc-gen": "^0.12.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "uuid": "^7.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,14 +29,14 @@
     "generate": "sh scripts/proto.sh"
   },
   "eslintConfig": {
+    "ignorePatterns": [
+      "**/*_pb.js"
+    ],
     "overrides": [
       {
         "files": [
-          "*.proto"
-        ],
-        "rules": {
-          "require-jsdoc": "off"
-        }
+          "src/proto/*"
+        ]
       }
     ]
   },
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-modal": "^3.10.5"
+    "@types/react-modal": "^3.10.5",
+    "@types/uuid": "^7.0.2"
   }
 }

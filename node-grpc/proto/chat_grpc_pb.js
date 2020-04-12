@@ -28,6 +28,17 @@ var ChatServiceService = exports.ChatServiceService = {
     responseSerialize: serialize_messages_Message,
     responseDeserialize: deserialize_messages_Message,
   },
+  send: {
+    path: '/messages.ChatService/send',
+    requestStream: false,
+    responseStream: false,
+    requestType: chat_pb.Message,
+    responseType: chat_pb.Message,
+    requestSerialize: serialize_messages_Message,
+    requestDeserialize: deserialize_messages_Message,
+    responseSerialize: serialize_messages_Message,
+    responseDeserialize: deserialize_messages_Message,
+  },
 };
 
 exports.ChatServiceClient = grpc.makeGenericClientConstructor(ChatServiceService);

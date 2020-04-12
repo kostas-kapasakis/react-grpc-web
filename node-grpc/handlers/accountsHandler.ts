@@ -1,16 +1,15 @@
 import * as grpc from 'grpc';
 import {ServerWritableStream} from 'grpc';
+import {GetAccountById, GetAllAccounts} from "../repository/accountsRepository";
+import {AccountServiceService, IAccountServiceServer} from "../proto/accounts_grpc_pb";
 import {
     Account,
     AccountsChange,
-    AllAccountsResponse,
-    AppRegistrationForAccounts,
+    AllAccountsResponse, AppRegistrationForAccounts,
     GetAccountRequest,
     GetAccountResponse,
-    GetAllAccountRequest,
-} from '../proto/accounts/accounts_pb';
-import {AccountServiceService, IAccountServiceServer} from '../proto/accounts/accounts_grpc_pb';
-import {GetAccountById, GetAllAccounts} from "../repository/accountsRepository";
+    GetAllAccountRequest
+} from "../proto/accounts_pb";
 
 class AccountsHandler implements IAccountServiceServer {
 
@@ -51,6 +50,8 @@ class AccountsHandler implements IAccountServiceServer {
             response.setAccount(account);
             setInterval(() => request.write(response, null), 1000);
         }
+
+
 
         setInterval(() =>   request.end(), 12000);
 

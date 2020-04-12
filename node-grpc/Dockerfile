@@ -1,17 +1,15 @@
 FROM node:10
 
-# Create app directory
 WORKDIR /
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+COPY tsconfig*.json ./
 
-# Bundle app source
+RUN npm ci --quiet && npm run build
+
 COPY ./dist .
 
 EXPOSE 9090
+
 CMD [ "node", "server.js" ]

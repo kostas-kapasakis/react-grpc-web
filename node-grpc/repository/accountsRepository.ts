@@ -1,4 +1,4 @@
-import {Account} from "../proto/accounts/accounts_pb";
+import {Account} from "../proto/accounts_pb";
 
 export const GetAccountById = (id: number): Account => {
     const account = new Account();

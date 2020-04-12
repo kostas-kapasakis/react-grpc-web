@@ -1,0 +1,38 @@
+version: '3.2'
+services:
+  node-grpc:
+    build:
+      context: node-grpc
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./node-grpc:/app
+    ports:
+        - '9090:9090'
+    restart: on-failure
+    container_name: node-grpc
+    environment:
+      - PORT=9090
+  envoy:
+    build:
+      context: envoy-proxy
+      dockerfile: Dockerfile
+    environment:
+      - FORWARD_PORT=8080
+      - EXPOSED_NODE_PORT=9090
+      - NODE_CONTAINER_NAME=node-grpc
+    ports:
+      - '8080:8080'
+    links:
+      - "node-grpc:node-grpc"
+    restart: on-failure
+    container_name: envoy
+  react-grpc:
+    build:
+      context: react-grpc
+      dockerfile: Dockerfile
+    ports:
+    - '3000:80'
+    restart: on-failure
+    container_name: react-grpc
+

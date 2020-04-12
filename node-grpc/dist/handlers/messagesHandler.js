@@ -1,26 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const chat_grpc_pb_1 = require("../proto/messages/chat_grpc_pb");
+const chat_grpc_pb_1 = require("../proto/chat_grpc_pb");
+const chat_pb_1 = require("../proto/chat_pb");
+let users = [];
 class MessagesHandler {
     constructor() {
         this.chat = (call) => {
-            call.on('data', (chatMessage) => {
-                let user = call.metadata.get('username');
-                let msg = chatMessage.message;
-                console.log(`${user} ==> ${msg}`);
-                call.write({
-                    from: user,
-                    message: msg
-                });
-            });
-            call.on('end', function () {
-                call.write({
-                    fromName: 'Chat server',
-                    message: 'Nice to see ya! Come back again...'
-                });
-                call.end();
+            users.push(call);
+            const joinMessage = new chat_pb_1.Message();
+            joinMessage.setFrom("Server");
+            joinMessage.setMessage("New user joined");
+            users.forEach(user => {
+                user.write(joinMessage);
             });
         };
+    }
+    send(call, callback) {
+        users.forEach(user => {
+            user.write(call.request);
+        });
     }
 }
 exports.default = {

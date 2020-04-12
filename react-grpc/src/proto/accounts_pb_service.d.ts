@@ -3,7 +3,7 @@
 
 import * as accounts_pb from "./accounts_pb";
 import {grpc} from "@improbable-eng/grpc-web";
-/* eslint-disable */
+
 type AccountServiceGetAccountById = {
   readonly methodName: string;
   readonly service: typeof AccountService;

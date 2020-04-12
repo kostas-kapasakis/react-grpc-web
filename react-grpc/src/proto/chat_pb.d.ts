@@ -1,6 +1,6 @@
 // package: messages
 // file: chat.proto
-/* eslint-disable */
+
 import * as jspb from "google-protobuf";
 
 export class Message extends jspb.Message {

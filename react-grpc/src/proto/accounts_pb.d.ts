@@ -1,6 +1,6 @@
 // package: accounts
 // file: accounts.proto
-/* eslint-disable */
+
 import * as jspb from "google-protobuf";
 
 export class Account extends jspb.Message {

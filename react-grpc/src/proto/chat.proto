@@ -10,4 +10,5 @@ message Message {
 
 service ChatService {
     rpc chat(stream Message) returns (stream Message) {}
+    rpc send(Message) returns(Message){}
 }

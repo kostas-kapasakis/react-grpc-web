@@ -1,59 +1,94 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {ChatServiceClient} from "../proto/chat_pb_service";
-import grpc from 'grpc';
 import {Message} from "../proto/chat_pb";
-import {Button} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
+import {makeStyles, Theme} from "@material-ui/core/styles";
+import {v4} from 'uuid';
+
+const useStyles = makeStyles((theme: Theme) => ({
+    messageContainer:{
+        maxWidth:"35%",
+    },
+    messageList:{
+        minHeight:"500px",
+        maxWidth:"700px",
+        backgroundColor:"aliceblue",
+        border:"1px solid gray"
+    },
+    sendMessageBtn:{
+        marginLeft:"20px",
+        float:"right",
+        marginTop:"13px"
+    },
+    messageInput: {
+        width:"60%"
+    }
+}));
+
 
 export default function ChatContainer() {
     let client: ChatServiceClient;
     const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState<Array<string>>([]);
+    const [user, setUser] = useState<string>(v4());
+
+    const classes = useStyles();
+
+    useEffect(() => { listenForMessages();},[]);
 
     const handleMessage = (event: ChangeEvent<HTMLInputElement>) => {
         setMessage(event.target.value);
     };
 
-    const handleBidirectionalCalls = () => {
+    const handleSendMessage = () => {
+        client = new ChatServiceClient("http://localhost:8080");
+        const request = new Message();
+
+        request.setFrom(user);
+        request.setMessage(message);
+        client.send(request, ()=>{});
+    };
+
+    const listenForMessages = () => {
         client = new ChatServiceClient("http://localhost:8080");
 
+        const request = new Message();
+        request.setFrom(user);
+        request.setMessage(message);
+        const stream = client.chat().write(request);
 
-        // const request = new Message();
-        // if (message === "quit") {
-        //     call.end();
-        // } else {
-        //     call.write({
-        //         message : line
-        //     });
-        // }
-
-        // const metadata = new grpc.Metadata();
-        // metadata.add('username', "Kostas");
-        // //const  call = client.chat(request);
-        //
-        //
-        // call.on('data', (chatMessage) => {
-        //     console.log(`${chatMessage.toObject().from} ==> ${chatMessage.toObject().message}`);
-        // });
-        // call.on('end', () => {
-        //     console.log('Server ended call');
-        // });
-
-        // call.on("error", (e) => {
-        //     console.log(e);
-        // });
-
-
-        return (
-            <div>
-                Chat Container
-                <Button onClick={handleBidirectionalCalls}
-                        variant="contained"
-                        color="primary">
-                    Send message
-                </Button>
-                <input type="text" value={message} onChange={handleMessage}/>
-            </div>
-        );
-
+        stream.on('data', (chatMessage) => {
+            setMessages(messages => messages.concat([`${chatMessage.toObject().from} ==> ${chatMessage.toObject().message}`]));
+        });
+        stream.on('end', () => {
+            setMessages(messages => messages.concat(["Server stream was forced to close"]));
+        });
     }
+
+    return (
+            <>
+                <div className={classes.messageContainer}>
+                    <h3>Messages</h3>
+                     <div className={classes.messageList}>
+                         {messages.map(msg => <p>{msg}</p>)}
+                     </div>
+                    <TextField
+                        id="standard-multiline-flexible"
+                        label="Type your message"
+                        multiline
+                        rowsMax="4"
+                        value={message}
+                        className={classes.messageInput}
+                        onChange={handleMessage}
+                    />
+                    <Button className={classes.sendMessageBtn} onClick={handleSendMessage}
+                            variant="contained"
+                            color="primary">
+                        Send message
+                    </Button>
+                </div>
+
+            </>
+        );
 };
 

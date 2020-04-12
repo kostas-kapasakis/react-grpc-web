@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const accounts_pb_1 = require("../proto/accounts/accounts_pb");
+const accounts_pb_1 = require("../proto/accounts_pb");
 exports.GetAccountById = (id) => {
     const account = new accounts_pb_1.Account();
     if (id === 1) {

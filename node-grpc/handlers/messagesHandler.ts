@@ -1,32 +1,29 @@
-import {ChatServiceService, IChatServiceServer} from "../proto/messages/chat_grpc_pb";
-import {Message} from "../proto/messages/chat_pb";
-import {ServerDuplexStream} from "grpc";
+import {ChatServiceService, IChatServiceServer} from "../proto/chat_grpc_pb";
+import {Message} from "../proto/chat_pb";
+import {sendUnaryData, ServerDuplexStream, ServerUnaryCall} from "grpc";
 
+let users:Array<ServerDuplexStream<Message, Message>> = [];
 
 class MessagesHandler implements IChatServiceServer {
 
     chat = (call:ServerDuplexStream<Message, Message>) => {
-        call.on('data', (chatMessage) => {
-            let user =call.metadata.get('username');
-            let msg= chatMessage.message;
-            console.log(`${user} ==> ${msg}`);
+        users.push(call);
 
-                    call.write(
-                        {
-                            from: user,
-                            message : msg
-                        });
+        const joinMessage = new Message();
+        joinMessage.setFrom("Server");
+        joinMessage.setMessage("New user joined");
 
-            });
-
-        call.on('end', function() {
-            call.write({
-                fromName: 'Chat server',
-                message : 'Nice to see ya! Come back again...'
-            });
-            call.end();
+        users.forEach(user => {
+            user.write(joinMessage);
         });
     };
+
+    send(call: ServerUnaryCall<Message>, callback: sendUnaryData<Message>): void {
+        users.forEach(user => {
+            user.write(call.request);
+        });
+
+    }
 }
 
 export default {

@@ -1,6 +1,7 @@
 // package: accounts
-// file: accounts.proto
 /* eslint-disable */
+// file: accounts.proto
+
 var accounts_pb = require("./accounts_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 

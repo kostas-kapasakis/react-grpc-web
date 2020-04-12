@@ -13,7 +13,7 @@ function App() {
                 tab1={<AccountDetails/>}
                 tab2={<TableMUI />}
                 tab3={<StreamLog />}
-
+                tab4={<ChatContainer />}
             />
         </div>
     );

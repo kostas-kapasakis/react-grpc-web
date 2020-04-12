@@ -1,6 +1,6 @@
 // package: messages
 // file: chat.proto
-/* eslint-disable */
+
 import * as chat_pb from "./chat_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
@@ -13,9 +13,19 @@ type ChatServicechat = {
   readonly responseType: typeof chat_pb.Message;
 };
 
+type ChatServicesend = {
+  readonly methodName: string;
+  readonly service: typeof ChatService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof chat_pb.Message;
+  readonly responseType: typeof chat_pb.Message;
+};
+
 export class ChatService {
   static readonly serviceName: string;
   static readonly chat: ChatServicechat;
+  static readonly send: ChatServicesend;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -51,5 +61,14 @@ export class ChatServiceClient {
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
   chat(metadata?: grpc.Metadata): BidirectionalStream<chat_pb.Message, chat_pb.Message>;
+  send(
+    requestMessage: chat_pb.Message,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: chat_pb.Message|null) => void
+  ): UnaryResponse;
+  send(
+    requestMessage: chat_pb.Message,
+    callback: (error: ServiceError|null, responseMessage: chat_pb.Message|null) => void
+  ): UnaryResponse;
 }
 
