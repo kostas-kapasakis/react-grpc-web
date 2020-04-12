@@ -17,10 +17,6 @@ services:
     build:
       context: envoy-proxy
       dockerfile: Dockerfile
-    environment:
-      - FORWARD_PORT=8080
-      - EXPOSED_NODE_PORT=9090
-      - NODE_CONTAINER_NAME=node-grpc
     ports:
       - '8080:8080'
     links:

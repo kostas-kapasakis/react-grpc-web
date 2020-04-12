@@ -10,6 +10,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import {makeStyles} from "@material-ui/core/styles";
+import {v4} from 'uuid';
 
 export type StreamLogProps = {
     message:any;
@@ -70,7 +71,7 @@ export const StreamLog = () => {
 
     const handleServerStreaming = () => {
 
-        const appId = 'aaskldfjalsdf-asdfasdfas-asdfasdf';
+        const appId = v4();
 
         const request = new AppRegistrationForAccounts();
         request.setId(appId);
