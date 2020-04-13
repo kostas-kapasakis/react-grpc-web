@@ -1,15 +1,25 @@
-FROM node:10
+#Build Stage
+FROM node:12.13.0 AS builder
 
-WORKDIR /
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
 COPY tsconfig*.json ./
 
+COPY ./ ./src
+
 RUN npm ci --quiet && npm run build
 
-COPY ./dist .
+#Deploy Stage
+FROM node:12.13.0-slim
 
-EXPOSE 9090
+WORKDIR /app
 
-CMD [ "node", "server.js" ]
+COPY package*.json ./
+
+RUN npm ci --quiet --only=production
+
+COPY --from=builder /usr/src/app/dist ./dist
+
+CMD [ "node", "/app/dist/server.js" ]

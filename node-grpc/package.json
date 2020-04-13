@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "generate": "sh ./scripts/proto.sh",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc",
     "start": "npx tsc && node ./dist/server.js"
   },
   "author": "",
