@@ -7,13 +7,17 @@ import {StreamLog} from "./components/StreamLog";
 import ChatContainer from "./components/Chat";
 
 function App() {
+    const proxyUrl = process.env.REACT_APP_API_URL;
+
+    console.log(proxyUrl);
+
     return (
         <div className="container">
             <CustomTabs
-                tab1={<AccountDetails/>}
-                tab2={<TableMUI />}
-                tab3={<StreamLog />}
-                tab4={<ChatContainer />}
+                tab1={<AccountDetails url={proxyUrl}/>}
+                tab2={<TableMUI url={proxyUrl}/>}
+                tab3={<StreamLog url={proxyUrl}/>}
+                tab4={<ChatContainer url={proxyUrl}/>}
             />
         </div>
     );

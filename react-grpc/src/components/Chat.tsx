@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 
-export default function ChatContainer() {
+export default function ChatContainer({url}:any) {
     let client: ChatServiceClient;
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<string>>([]);
@@ -41,7 +41,7 @@ export default function ChatContainer() {
     };
 
     const handleSendMessage = () => {
-        client = new ChatServiceClient("http://localhost:8080");
+        client = new ChatServiceClient(url);
         const request = new Message();
 
         request.setFrom(user);
@@ -50,7 +50,7 @@ export default function ChatContainer() {
     };
 
     const listenForMessages = () => {
-        client = new ChatServiceClient("http://localhost:8080");
+        client = new ChatServiceClient(url);
 
         const request = new Message();
         request.setFrom(user);

@@ -58,14 +58,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export const StreamLog = () => {
+export const StreamLog = ({url}:any) => {
     const [accounts , setAccounts] = useState<any[]>([]);
     const [streamStatus, setStreamStatus] = useState<any>({});
     let client:AccountServiceClient;
     const classes = useStyles();
 
     useEffect(()=>{
-        client = new AccountServiceClient("http://localhost:8080");
+        client = new AccountServiceClient(url);
     },[accounts]);
 
 

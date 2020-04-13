@@ -25,17 +25,17 @@ const useStyles = makeStyles({
     }
 });
 
-export default function TableMUI() {
+export default function TableMUI({url}:any) {
     const [accounts, setAccounts] = useState<any[] | undefined>([]);
     let client:AccountServiceClient;
     const classes = useStyles();
 
     useEffect(() => {
-        client = new AccountServiceClient("http://localhost:8080");
+        client = new AccountServiceClient(url);
     },[accounts]);
 
     const handleGetAllAccountsHandle = () => {
-        client = new AccountServiceClient("http://localhost:8080");
+        client = new AccountServiceClient(url);
         const request = new GetAllAccountRequest();
         client?.getAllAccounts(request, (err, accounts) => {
             setAccounts(accounts?.toObject().accountsList ?? []);

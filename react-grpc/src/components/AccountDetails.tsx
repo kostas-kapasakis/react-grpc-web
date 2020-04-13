@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {Account, GetAccountRequest} from "../proto/accounts_pb";
+import {GetAccountRequest} from "../proto/accounts_pb";
 import {AccountServiceClient} from "../proto/accounts_pb_service";
 import {Button, Card, CardContent, TextField, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -26,11 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-export type AccountDetailsProps = {
-    account:Account | undefined
-}
-
-export const AccountDetails = () => {
+export const AccountDetails = ({url}:any) => {
     let client: AccountServiceClient;
     const classes = useStyles();
     const [account, setAccount] = useState<any>(null);
@@ -38,15 +34,11 @@ export const AccountDetails = () => {
 
 
     useEffect(()=>{
-        client = new AccountServiceClient("http://localhost:8080");
+        client = new AccountServiceClient(url);
     },[accountIdInput]);
 
 
     const handleGetAccount = () => {
-        // client = new AccountServiceClient("http://localhost:8080");
-
-        console.log(accountIdInput);
-
         const request = new GetAccountRequest();
         request.setId(accountIdInput ?? 1);
 
