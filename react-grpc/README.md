@@ -1,6 +1,6 @@
-#React gRPC-WEB client
+# React gRPC-WEB client
 
-##Important links
+## Important links
 
 1) https://github.com/grpc/grpc-web
 
@@ -31,9 +31,9 @@
                 stream.on('end', (metadata) =>  {});
 
 
-##Debug current project
+## Debug current project
 
-####With Docker
+#### With Docker
 
 ````
 docker build -t react-grpc .
@@ -42,7 +42,7 @@ docker run -d -p 3000:3000 --name react-grp react-grp
 
 ````
 
-####Without Docker
+#### Without Docker
 
 ````
 npm run start
