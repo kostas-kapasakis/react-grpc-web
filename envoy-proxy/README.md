@@ -1,10 +1,10 @@
-#Envoy proxy image
+# Envoy proxy image
 
 ## Valuable links
 1) https://www.envoyproxy.io/
 2) https://blog.markvincze.com/how-to-use-envoy-as-a-load-balancer-in-kubernetes/
 
-##Definition
+## Definition
 Envoy is a high performance C++ distributed proxy designed for single services and applications,
 as well as a communication bus and “universal data plane” designed for large microservice “service mesh” architectures.
 
@@ -15,7 +15,7 @@ in which gRPC-Web support is built-in.
 grpc node service
 
 
-##Debug
+## Debug
 
 In case you want to debug current project separately:
 
@@ -28,7 +28,7 @@ Also please verify that the name you choose for the node back-end must be the sa
     hosts: [{ socket_address: { address: node-grpc, port_value: 9090 }}]
 ````
 
-###Docker set up steps
+### Docker set up steps
 
 ````
  docker build -t envoy .
